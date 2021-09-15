@@ -1,0 +1,12 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: crossplane-scale-cluster
+  annotations:
+    provider: aws
+spec:
+  crossplane:
+    version: ">=v1.0.0-0"
+  dependsOn:
+    - provider: crossplane/provider-gcp
+      version: "v0.18.0-2.g0206b41"

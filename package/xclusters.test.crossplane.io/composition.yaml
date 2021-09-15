@@ -1,0 +1,67 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xclusters.test.crossplane.io
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: test.crossplane.io/v1alpha1
+    kind: XCluster
+  resources:
+  - name: cluster
+    base:
+      apiVersion: container.gcp.crossplane.io/v1beta2
+      kind: Cluster
+      spec:
+        forProvider:
+          initialClusterVersion: "1.20"
+          location: us-west2
+          networkConfig:
+            enableIntraNodeVisibility: true
+          loggingService: logging.googleapis.com/kubernetes
+          monitoringService: monitoring.googleapis.com/kubernetes
+          addonsConfig:
+            gcePersistentDiskCsiDriverConfig:
+              enabled: true
+          network: "default"
+        writeConnectionSecretToRef:
+          namespace: crossplane-system
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: metadata.uid
+      toFieldPath: spec.writeConnectionSecretToRef.name
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-cluster"
+    connectionDetails:
+    - fromConnectionSecretKey: kubeconfig
+  - name: nodepool
+    base:
+      apiVersion: container.gcp.crossplane.io/v1beta1
+      kind: NodePool
+      spec:
+        forProvider:
+          autoscaling:
+            autoprovisioned: false
+            enabled: true
+            maxNodeCount: 2
+            minNodeCount: 1
+          clusterSelector:
+            matchControllerRef: true
+          config:
+            machineType: e2-medium
+            diskSizeGb: 100
+            diskType: pd-ssd
+            imageType: cos_containerd
+            oauthScopes:
+            - "https://www.googleapis.com/auth/devstorage.read_only"
+            - "https://www.googleapis.com/auth/logging.write"
+            - "https://www.googleapis.com/auth/monitoring"
+            - "https://www.googleapis.com/auth/servicecontrol"
+            - "https://www.googleapis.com/auth/service.management.readonly"
+            - "https://www.googleapis.com/auth/trace.append"      
+          initialNodeCount: 2
+          locations:
+            - "us-west2-a"

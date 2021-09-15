@@ -1,0 +1,9 @@
+apiVersion: test.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  generateName: scale-test-
+spec:
+  parameters:
+    location: USA
+  writeConnectionSecretToRef:
+    name: scale-test

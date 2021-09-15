@@ -1,0 +1,97 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xbuckets.test.crossplane.io
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: test.crossplane.io/v1alpha1
+    kind: XBucket
+  patchSets:
+  - name: external-name
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: metadata.annotations[crossplane.io/external-name]
+      toFieldPath: metadata.annotations[crossplane.io/external-name]
+  resources:
+
+  - name: bucket
+    base:
+      apiVersion: storage.gcp.crossplane.io/v1alpha3
+      kind: Bucket
+      spec:
+        location: US
+        storageClass: MULTI_REGIONAL
+    patches:
+    - type: PatchSet
+      patchSetName: external-name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.location
+      toFieldPath: spec.location
+      transforms:
+      - type: map
+        map:
+          USA: US
+          Europe: EU
+
+  - name: service-account
+    base:
+      apiVersion: iam.gcp.crossplane.io/v1alpha1
+      kind: ServiceAccount
+      spec:
+        forProvider:
+          displayName: "Scale Testing"
+          description: "A service account for scale testing"
+    patches:
+    - type: PatchSet
+      patchSetName: external-name
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.email
+      toFieldPath: status.serviceAccount.email
+    connectionDetails:
+    - name: serviceAccountEmail
+      type: FromFieldPath
+      fromFieldPath: status.atProvider.email
+
+  - name: service-account-key
+    base:
+      apiVersion: iam.gcp.crossplane.io/v1alpha1
+      kind: ServiceAccountKey
+      spec:
+        forProvider:
+          serviceAccountSelector:
+            matchControllerRef: true
+        writeConnectionSecretToRef:
+          namespace: crossplane-system
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: metadata.uid
+      toFieldPath: spec.writeConnectionSecretToRef.name
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-service-account-key"
+    connectionDetails:
+    - name: serviceAccountName
+      type: FromFieldPath
+      fromFieldPath: metadata.name
+    - name: serviceAccountPrivateKey
+      type: FromConnectionSecretKey
+      fromConnectionSecretKey: privateKey
+
+  - name: bucket-policy-member
+    base:
+      apiVersion: storage.gcp.crossplane.io/v1alpha1
+      kind: BucketPolicyMember
+      spec:
+        forProvider:
+          bucketSelector:
+            matchControllerRef: true
+          serviceAccountMemberSelector:
+            matchControllerRef: true
+          role: roles/storage.objectAdmin
+        # Workaround for the below issue. Pretty sure deleting the bucket will
+        # implicitly delete this policy member.
+        # https://github.com/crossplane/provider-gcp/issues/370
+        deletionPolicy: Orphan
