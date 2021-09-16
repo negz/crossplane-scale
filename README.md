@@ -26,8 +26,10 @@ limited][storage-quotas] to approximately one CRUD operation every two seconds.
 GCS does [bill per operation][operations-pricing], so running scale tests is not
 free. The cost appears to be minimal though, at $0.05 per 10,000 creates (aka
 'inserts'), and $0.004 per 10,000 observes (aka 'gets'). IAM service accounts
-are also used in the scale testing composition. There are no documented quotas
-or costs for number of service accounts.
+are also used in the scale testing composition. There are no documented costs
+for number of service accounts, but they are limited to 100 per project. It's
+possible to request a quota increase via the GCP console, and we've had the
+quota used for our testing project increased to 1,200.
 
 ## Future Improvements
 
