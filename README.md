@@ -31,6 +31,22 @@ for number of service accounts, but they are limited to 100 per project. It's
 possible to request a quota increase via the GCP console, and we've had the
 quota used for our testing project increased to 1,200.
 
+## Findings
+
+An initial test of 100 `Bucket` claims (created using `./create-bucket.sh`)
+shows that it took about 18 minutes for all claims to become ready. By contrast
+a single `Bucket` claim becomes ready in about 30 seconds. Crossplane and the
+RBAC manager appear to be well within their configured resource limits (and
+provider-gcp has none):
+
+```console
+$ kubectl top pod --namespace crossplane-system --use-protocol-buffers
+NAME                                                    CPU(cores)   MEMORY(bytes)   
+crossplane-6f974db97-7wfwg                              64m          51Mi            
+crossplane-provider-gcp-a5d5084d3e98-7c47d9f65b-8jx74   158m         108Mi           
+crossplane-rbac-manager-dd8d65f77-8gbft                 4m           25Mi 
+```
+
 ## Future Improvements
 
 * Ideally the `xclusters` configuration would deploy a particular version of
