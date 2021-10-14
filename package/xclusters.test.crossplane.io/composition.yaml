@@ -46,7 +46,7 @@ spec:
           autoscaling:
             autoprovisioned: false
             enabled: true
-            maxNodeCount: 2
+            maxNodeCount: 5
             minNodeCount: 1
           clusterSelector:
             matchControllerRef: true

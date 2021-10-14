@@ -31,6 +31,16 @@ for number of service accounts, but they are limited to 100 per project. It's
 possible to request a quota increase via the GCP console, and we've had the
 quota used for our testing project increased to 1,200.
 
+## Setup
+
+Roughly:
+
+1. Create a GKE cluster by applying `cluster.yaml`.
+2. Deploy Crossplane v1.4.1 to said GKE cluster
+3. Apply https://github.com/prometheus-operator/kube-prometheus/tree/release-0.9/manifests
+4. Apply https://raw.githubusercontent.com/caicloud/event_exporter/master/deploy/deploy.yml
+4. Apply `prom-pod-monitors.yaml`.
+
 ## Findings
 
 An initial test of 100 `Bucket` claims (created using `./create-bucket.sh`)

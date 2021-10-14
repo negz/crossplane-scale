@@ -9,4 +9,4 @@ spec:
     version: ">=v1.4.0-0"
   dependsOn:
     - provider: crossplane/provider-gcp
-      version: "v0.18.0-rc.0.88.g469c003"
+      version: "v0.18.0-rc.0.105.g80f90cf"
