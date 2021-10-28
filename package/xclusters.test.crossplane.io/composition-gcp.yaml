@@ -2,7 +2,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xclusters.test.crossplane.io
+  name: gcp
+  labels:
+    provider: gcp
 spec:
   writeConnectionSecretsToNamespace: crossplane-system
   compositeTypeRef:

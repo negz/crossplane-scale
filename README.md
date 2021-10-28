@@ -39,7 +39,7 @@ Roughly:
 2. Deploy Crossplane v1.4.1 to said GKE cluster
 3. Apply https://github.com/prometheus-operator/kube-prometheus/tree/release-0.9/manifests
 4. Apply https://raw.githubusercontent.com/caicloud/event_exporter/master/deploy/deploy.yml
-4. Apply `prom-pod-monitors.yaml`.
+5. Apply `prom-pod-monitors.yaml`.
 
 ## Findings
 
