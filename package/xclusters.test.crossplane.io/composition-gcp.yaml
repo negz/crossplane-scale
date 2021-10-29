@@ -17,7 +17,7 @@ spec:
       kind: Cluster
       spec:
         forProvider:
-          initialClusterVersion: "1.20"
+          initialClusterVersion: "1.21"
           location: us-west2
           networkConfig:
             enableIntraNodeVisibility: true
