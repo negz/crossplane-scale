@@ -3,12 +3,13 @@
 
 set +e
 
-if [[ -z ${1} ]]; then
-        echo "Usage: $0 <batches>"
+if [[ -z ${2} ]]; then
+        echo "Usage: $0 <sleep-seconds> <batches>"
         exit 1
 fi
 
-COUNT=$((${1}-1))
+SLEEP=${1}
+COUNT=$((${2}-1))
 
 i=0
 while [ ${i} -le ${COUNT} ]; do
@@ -20,6 +21,6 @@ while [ ${i} -le ${COUNT} ]; do
         echo "Iteration ${i} complete"
         echo
 
-        sleep 60
+        sleep ${SLEEP}
         i=$((i+1))
 done
