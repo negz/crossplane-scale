@@ -1,8 +1,11 @@
 apiVersion: test.crossplane.io/v1alpha1
 kind: XCluster
 metadata:
-  name: scale-test-0
+  name: scale-test-aws
 spec:
   writeConnectionSecretToRef:
     namespace: default
-    name: scale-test
+    name: scale-test-aws
+  compositionSelector:
+    matchLabels:
+      provider: aws
