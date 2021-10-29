@@ -871,7 +871,7 @@
           "exemplar": true,
           "expr": "process_start_time_seconds{job=\"apiserver\"} * 1000",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -892,7 +892,7 @@
             "axisSoftMin": 1,
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 6,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -909,7 +909,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -953,9 +953,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (job) (rate(process_cpu_seconds_total{job=\"apiserver\"}[$__rate_interval]))",
+          "expr": "sum by (instance) (rate(process_cpu_seconds_total{job=\"apiserver\"}[$__rate_interval]))",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -1037,7 +1037,7 @@
           "exemplar": true,
           "expr": "count(count by (crd) (apiextensions_openapi_v2_regeneration_count{job=\"apiserver\", reason=\"add\"}))",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "CRDs",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -1119,9 +1119,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (job) (process_resident_memory_bytes{job=\"apiserver\"})",
+          "expr": "sum by (instance) (process_resident_memory_bytes{job=\"apiserver\"})",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -1202,9 +1202,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (job) (go_goroutines{job=\"apiserver\"})",
+          "expr": "sum by (instance) (go_goroutines{job=\"apiserver\"})",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -1221,12 +1221,12 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Scale Testing",
-  "uid": "l4R43nO7k",
-  "version": 4
+  "uid": "C_p1gHKnk",
+  "version": 3
 }
