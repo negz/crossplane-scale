@@ -48,8 +48,8 @@ spec:
           autoscaling:
             autoprovisioned: false
             enabled: true
-            maxNodeCount: 30
-            minNodeCount: 20
+            maxNodeCount: 20
+            minNodeCount: 10
           clusterSelector:
             matchControllerRef: true
           config:
@@ -65,7 +65,7 @@ spec:
             - "https://www.googleapis.com/auth/servicecontrol"
             - "https://www.googleapis.com/auth/service.management.readonly"
             - "https://www.googleapis.com/auth/trace.append"      
-          initialNodeCount: 2
+          initialNodeCount: 10
           locations:
             - "us-west2-a"
   - name: nodepool-for-crossplane
