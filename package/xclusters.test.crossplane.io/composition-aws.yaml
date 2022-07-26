@@ -166,7 +166,6 @@ spec:
             region: us-west-2
             vpcIdSelector:
               matchControllerRef: true
-            groupName: platform-ref-aws-cluster
             description: Allow access to PostgreSQL
             ingress:
               - fromPort: 5432
@@ -175,11 +174,13 @@ spec:
                 ipRanges:
                   - cidrIp: 0.0.0.0/0
                     description: Everywhere
-
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.groupName
     - name: role-controlplane
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRole
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Role
         metadata:
           labels:
             role: controlplane
@@ -204,8 +205,8 @@ spec:
               }
     - name: rolepolicyattachment-controlplane
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRolePolicyAttachment
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
         spec:
           forProvider:
             policyArn: arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
@@ -231,7 +232,7 @@ spec:
                 matchControllerRef: true
               subnetIdSelector:
                 matchControllerRef: true
-            version: "1.21"
+            version: "1.22"
       patches:
         - fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
@@ -247,8 +248,8 @@ spec:
         - fromConnectionSecretKey: kubeconfig
     - name: role-nodegroup
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRole
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Role
         metadata:
           labels:
             role: nodegroup
@@ -273,8 +274,8 @@ spec:
               }
     - name: rolepolicyattachment-nodegroup-worker
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRolePolicyAttachment
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
         spec:
           forProvider:
             policyArn: arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
@@ -284,8 +285,8 @@ spec:
                 role: nodegroup
     - name: rolepolicyattachment-nodegroup-cni
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRolePolicyAttachment
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
         spec:
           forProvider:
             policyArn: arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
@@ -295,8 +296,8 @@ spec:
                 role: nodegroup
     - name: rolepolicyattachment-nodegroup-ecr
       base:
-        apiVersion: identity.aws.crossplane.io/v1beta1
-        kind: IAMRolePolicyAttachment
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
         spec:
           forProvider:
             policyArn: arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
