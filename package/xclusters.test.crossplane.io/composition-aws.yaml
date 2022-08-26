@@ -175,7 +175,7 @@ spec:
                   - cidrIp: 0.0.0.0/0
                     description: Everywhere
       patches:
-        - fromFieldPath: metadata.name
+        - fromFieldPath: metadata.uid
           toFieldPath: spec.forProvider.groupName
     - name: role-controlplane
       base:
@@ -232,10 +232,8 @@ spec:
                 matchControllerRef: true
               subnetIdSelector:
                 matchControllerRef: true
-            version: "1.22"
+            version: "1.23"
       patches:
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: metadata.uid
           toFieldPath: spec.writeConnectionSecretToRef.name
           transforms:
@@ -319,6 +317,7 @@ spec:
               matchLabels:
                 role: nodegroup
             subnetSelector:
+              matchControllerRef: true
               matchLabels:
                 access: public
             scalingConfig:
@@ -327,6 +326,3 @@ spec:
               desiredSize: 3
             instanceTypes:
               - t3.large
-      patches:
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]

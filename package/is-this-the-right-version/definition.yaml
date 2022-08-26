@@ -1,0 +1,49 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xbuckets.test.crossplane.io
+spec:
+  group: test.crossplane.io
+  names:
+    kind: XBucket
+    plural: xbuckets
+  claimNames:
+    kind: Bucket
+    plural: buckets
+  # TODO(negz): Ideally we'd write a connection secret.
+  connectionSecretKeys:
+    - serviceAccountName
+    - serviceAccountEmail
+    - serviceAccountPrivateKey
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  location:
+                    type: string
+                    enum:
+                    - USA
+                    - Europe
+                required:
+                  - location
+            required:
+              - parameters
+          status:
+            type: object
+            properties:
+              serviceAccount:
+                type: object
+                properties:
+                  email:
+                    type: string
