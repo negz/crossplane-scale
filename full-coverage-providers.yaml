@@ -1,0 +1,21 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: crossplane-provider-jet-aws
+spec:
+  package: crossplane/provider-jet-aws:v0.4.0-preview
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: crossplane-provider-jet-azure
+spec:
+  package: crossplane/provider-jet-azure:v0.11.0-preview
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: crossplane-provider-jet-gcp
+spec:
+  package: crossplane/provider-jet-gcp:v0.2.0-preview
