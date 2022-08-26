@@ -58,7 +58,7 @@ CRDs. You can do this one of two ways:
 curl -sL https://cli.upbound.io | sh
 
 # Install Crossplane. We need 1.9.0-up.3 or above.
-# See https://github.com/upbound/universal-crossplane/tree/v1.9.0-up.2
+# See https://github.com/upbound/universal-crossplane
 up uxp install 1.9.0-up.3
 
 # You'll want kubectl v1.25.0 or above to avoid slowness due to too many CRDs
