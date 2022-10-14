@@ -2,11 +2,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: gcp
+  name: gcp-2
   labels:
     provider: gcp
+    nodes: "2"
 spec:
-  writeConnectionSecretsToNamespace: crossplane-system
+  writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: test.crossplane.io/v1alpha1
     kind: XCluster
@@ -28,7 +29,7 @@ spec:
               enabled: true
           network: "default"
         writeConnectionSecretToRef:
-          namespace: crossplane-system
+          namespace: upbound-system
     patches:
     - type: FromCompositeFieldPath
       fromFieldPath: metadata.uid
@@ -39,35 +40,6 @@ spec:
           fmt: "%s-cluster"
     connectionDetails:
     - fromConnectionSecretKey: kubeconfig
-  - name: nodepool
-    base:
-      apiVersion: container.gcp.crossplane.io/v1beta1
-      kind: NodePool
-      spec:
-        forProvider:
-          autoscaling:
-            autoprovisioned: false
-            enabled: true
-            maxNodeCount: 30
-            minNodeCount: 20
-          clusterSelector:
-            matchControllerRef: true
-          config:
-            machineType: e2-micro
-            preemptible: true
-            diskSizeGb: 20
-            diskType: pd-ssd
-            imageType: cos_containerd
-            oauthScopes:
-            - "https://www.googleapis.com/auth/devstorage.read_only"
-            - "https://www.googleapis.com/auth/logging.write"
-            - "https://www.googleapis.com/auth/monitoring"
-            - "https://www.googleapis.com/auth/servicecontrol"
-            - "https://www.googleapis.com/auth/service.management.readonly"
-            - "https://www.googleapis.com/auth/trace.append"      
-          initialNodeCount: 20
-          locations:
-            - "us-west2-a"
   - name: nodepool-for-crossplane
     base:
       apiVersion: container.gcp.crossplane.io/v1beta1

@@ -1,0 +1,9 @@
+apiVersion: test.crossplane.io/v1alpha1
+kind: XCluster
+metadata:
+  name: scale-test-gcp-2
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: gcp
+      nodes: "2"
