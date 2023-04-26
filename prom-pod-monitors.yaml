@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: crossplane-system
+  namespace: upbound-system
   name: prometheus-view
 subjects:
 - kind: ServiceAccount
@@ -16,12 +16,12 @@ roleRef:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  namespace: crossplane-system
+  namespace: upbound-system
   name: crossplane-providers
 spec:
   namespaceSelector:
     matchNames:
-      - crossplane-system
+      - upbound-system
   selector:
     matchExpressions:
       - key: crossplane.io/provider
@@ -32,12 +32,12 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  namespace: crossplane-system
+  namespace: upbound-system
   name: crossplane
 spec:
   namespaceSelector:
     matchNames:
-      - crossplane-system
+      - upbound-system
   selector:
     matchExpressions:
       - key: app
@@ -50,12 +50,12 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  namespace: crossplane-system
+  namespace: upbound-system
   name: crossplane-rbac-manager
 spec:
   namespaceSelector:
     matchNames:
-      - crossplane-system
+      - upbound-system
   selector:
     matchExpressions:
       - key: app
