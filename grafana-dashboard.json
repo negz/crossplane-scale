@@ -21,7 +21,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 26,
+  "id": 25,
   "links": [],
   "panels": [
     {
@@ -703,7 +703,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(container_memory_working_set_bytes{namespace=\"upbound-system\"}) by (container, pod)\n/\nsum(kube_pod_container_resource_requests{namespace=\"upbound-system\"} > 0) by (container, pod)",
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"upbound-system\"}) by (container, pod)\n/\nsum(kube_pod_container_resource_limits{namespace=\"upbound-system\"} > 0) by (container, pod)",
           "interval": "",
           "legendFormat": "{{pod}}/{{container}}",
           "queryType": "randomWalk",
@@ -1388,12 +1388,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Scale Testing",
-  "uid": "6aME_RsVz",
-  "version": 3
+  "uid": "BgRQx7sVk",
+  "version": 2
 }
