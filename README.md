@@ -40,7 +40,7 @@ Roughly:
   a. `package/xclusters.test.crossplane.io/composition-gcp.yaml`
   b. `package/xclusters.test.crossplane.io/definition.yaml`
   c. `cluster-gcp.yaml`.
-2. Deploy Crossplane to said GKE cluster (e.g. `up uxp install`).
+2. Deploy Crossplane to said GKE cluster (e.g. `up uxp install --set metrics.enabled=true`).
 3. Apply https://github.com/prometheus-operator/kube-prometheus/tree/release-0.9/manifests
 4. Apply https://raw.githubusercontent.com/caicloud/event_exporter/master/deploy/deploy.yml
 5. Apply `prom-pod-monitors.yaml`.
@@ -59,7 +59,7 @@ curl -sL https://cli.upbound.io | sh
 
 # Install Crossplane. We need 1.9.0-up.3 or above.
 # See https://github.com/upbound/universal-crossplane
-up uxp install 1.9.0-up.3
+up uxp install 1.9.0-up.3 --set metrics.enabled=true
 
 # You'll want kubectl v1.25.0 or above to avoid slowness due to too many CRDs
 # per https://blog.upbound.io/scaling-kubernetes-to-thousands-of-crds/
